@@ -10,20 +10,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
-
 class ProgenUsersCustomerService
 {
-
-    /**
-     * @return void
-     */
-    public function update(ProgenUserStoreRequest $request, String $id): void
+    public function update(ProgenUserStoreRequest $request, string $id): void
     {
-        
+
         try {
 
             DB::beginTransaction();
-            
+
             $data = $request->validated();
 
             $customer = ProgenCustomer::findOrFail($id);
@@ -32,15 +27,13 @@ class ProgenUsersCustomerService
 
             DB::commit();
 
-            Session::flash('success_message', __('progen.customer.users.users_associated')); 
+            Session::flash('success_message', __('progen.customer.users.users_associated'));
 
         } catch (Exception $e) {
 
             DB::rollBack();
             Log::error('assegnazione utente cliente fallita', [$e->getMessage()]);
             throw new ProgenUsersCustomerException();
-        
         }
     }
-
 }

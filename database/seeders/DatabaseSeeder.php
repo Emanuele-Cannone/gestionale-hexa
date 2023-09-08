@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -31,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'emanuele@mail.it',
             'password' => Hash::make('emanuele'),
             'remember_token' => Str::random(10),
-            'current_team_id' => Team::factory()->create()->id
+            'current_team_id' => Team::factory()->create()->id,
         ]);
 
         User::create([
@@ -39,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'guest@guest.it',
             'password' => Hash::make('emanuele'),
             'remember_token' => Str::random(10),
-            'current_team_id' => Team::factory()->create()->id
+            'current_team_id' => Team::factory()->create()->id,
         ]);
     }
 }

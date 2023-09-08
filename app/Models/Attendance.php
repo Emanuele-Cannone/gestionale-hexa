@@ -13,9 +13,8 @@ class Attendance extends Model
     protected $fillable = [
         'user_id',
         'enter',
-        'leave'
+        'leave',
     ];
-
 
     /**
      * @return BelongsTo<User>

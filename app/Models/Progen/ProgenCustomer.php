@@ -13,14 +13,12 @@ class ProgenCustomer extends Model
     protected $fillable = [
         'name',
         'customer_code',
-        'upload_type'
+        'upload_type',
     ];
-
 
     public function users()
     {
         return $this->belongsToMany(User::class)
-                ->withPivot(['leader', 'user_type']);
+            ->withPivot(['leader', 'user_type']);
     }
-
 }

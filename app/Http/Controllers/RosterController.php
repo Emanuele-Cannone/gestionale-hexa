@@ -2,61 +2,59 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Exceptions\QuestionException;
 use App\Exports\RosterExampleImport;
 use App\Http\Requests\RosterStoreRequest;
 use App\Imports\RosterImport;
-use App\Models\Proof;
-use App\Models\Question;
 use App\Models\Roster;
-use App\Models\RosterUser;
-use App\Models\User;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RosterController extends Controller
 {
-    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
 
+        $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
+            ->with('proof')
+            ->get();
+
+        foreach ($data as $v) {
+
+            $res[] = [
+                'id' => $v->id,
+                'title' => $v->user->name.' - '.$v->proof->name,
+                'start' => $v->date.' '.$v->from,
+                'end' => $v->date.' '.$v->to,
+                'user_id' => $v->user_id,
+            ];
+
+        }
+
         // credo il periodo temporale in base al numero della settimana corrente
         $today = Carbon::now();
         $weeksOfYearAvailable = [];
-        $hourInterval = CarbonPeriod::since('06:00')->minutes(30)->until('23:30')->toArray();
         $currentWeekOfYear = $today->weekOfYear;
 
-        for ($i=1; $i < 53; $i++) { 
-            if($i >= $currentWeekOfYear){
+        for ($i = 1; $i < 53; $i++) {
+            if ($i >= ($currentWeekOfYear - 4)) {
                 $weeksOfYearAvailable[] = $i;
             }
         }
 
-        $rosters = Roster::where('user_id', Auth::id())
-            ->paginate(7);
+        return view('rosters.index',
+            [
+                'weeksOfYearAvailable' => $weeksOfYearAvailable,
+                'res' => $res,
+                'currentWeekOfYear' => $currentWeekOfYear,
+            ],
 
-
-        // prendo tutti i giustificativi disponibili
-        $proofs = Proof::all();
-
-        return view('rosters.index', 
-                [
-                    'rosters' => $rosters,
-                    'weeksOfYearAvailable' => $weeksOfYearAvailable,
-                    'hourInterval' => $hourInterval,
-                    'proofs' => $proofs
-                ],
-                
-            )
-        ;
+        );
     }
 
     /**

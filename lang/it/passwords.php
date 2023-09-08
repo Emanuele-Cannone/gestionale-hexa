@@ -19,7 +19,7 @@ return [
     'token' => 'Il token per la reimpostazione della password non è valido.',
     'user' => "Non riusciamo a trovare un utente con quell'indirizzo e-mail.",
     'password' => 'Password',
-    
+
     'update_password' => 'Aggiorna Password',
     'update_password_description' => 'Assicurati che il tuo account utilizzi una password lunga e casuale per rimanere al sicuro',
     'current_password' => 'Password Attuale',

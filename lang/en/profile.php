@@ -26,7 +26,6 @@ return [
     'browser_sessions_logout' => 'Log Out Other Browser Sessions',
     'browser_sessions_logout_confirm' => 'Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.',
 
-
     'delete_account' => 'Delete Account',
     'delete_account_description' => 'Permanently delete your account.',
     'delete_account_info' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',

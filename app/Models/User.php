@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use App\Models\Progen\ProgenCustomer;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -22,10 +20,10 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
+    use HasRoles;
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -68,7 +66,7 @@ class User extends Authenticatable
 
     /**
      * @return HasMany<Attendance>
-    */
+     */
     public function attendance(): HasMany
     {
         return $this->hasMany(Attendance::class);
@@ -76,7 +74,7 @@ class User extends Authenticatable
 
     /**
      * @return HasMany<Roster>
-    */
+     */
     public function rosters(): HasMany
     {
         return $this->hasMany(Roster::class);
@@ -84,7 +82,7 @@ class User extends Authenticatable
 
     /**
      * @return HasMany<Attendance>
-    */
+     */
     public function comunication(): HasMany
     {
         return $this->hasMany(Comunication::class);
@@ -92,7 +90,7 @@ class User extends Authenticatable
 
     /**
      * @return HasOne<UserInfo>
-    */
+     */
     public function userInfo(): HasOne
     {
         return $this->hasOne(UserInfo::class);
@@ -100,7 +98,7 @@ class User extends Authenticatable
 
     /**
      * @return BelongsToMany<ProgenCustomer>
-    */
+     */
     public function progenCustomers(): BelongsToMany
     {
         return $this->belongsToMany(ProgenCustomer::class);

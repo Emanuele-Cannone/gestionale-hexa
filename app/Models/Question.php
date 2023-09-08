@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Question extends Model
 {
@@ -17,14 +16,13 @@ class Question extends Model
         'from',
         'to',
         'accepted',
-        'note'
+        'note',
     ];
-
 
     /**
      * @return belongsTo<User>
      */
-    public function user():belongsTo
+    public function user(): belongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -32,7 +30,7 @@ class Question extends Model
     /**
      * @return belongsTo<Proof>
      */
-    public function proof():belongsTo
+    public function proof(): belongsTo
     {
         return $this->belongsTo(Proof::class);
     }

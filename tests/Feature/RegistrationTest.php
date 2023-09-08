@@ -6,6 +6,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -35,7 +36,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->get('/register');
 
-        $response->assertStatus(404);
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     public function test_new_users_can_register(): void

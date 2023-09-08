@@ -12,7 +12,8 @@ class QuestionException extends Exception
 {
     public function render(Request $request): RedirectResponse
     {
-        Session::flash('error_message', __('attendance.error')); 
+        Session::flash('error_message', __('attendance.error'));
+
         return Redirect::route('rosters.index');
     }
 }

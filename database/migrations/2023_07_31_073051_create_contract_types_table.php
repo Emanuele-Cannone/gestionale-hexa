@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description');
-            $table->decimal('vacation',3,2)->nullable();
+            $table->decimal('vacation', 3, 2)->nullable();
             $table->boolean('part_time')->default(0);
             $table->timestamps();
         });

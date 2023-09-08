@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Progen;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProgenCustomerStoreRequest extends FormRequest
 {
@@ -23,9 +23,9 @@ class ProgenCustomerStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['unique:progen_customers,name','string','required'],
-            'customer_code' => ['numeric','unique:progen_customers,customer_code','required'],
-            'upload_type' => ['numeric','required']
+            'name' => ['unique:progen_customers,name', 'string', 'required'],
+            'customer_code' => ['numeric', 'unique:progen_customers,customer_code', 'required'],
+            'upload_type' => ['numeric', 'required'],
         ];
     }
 

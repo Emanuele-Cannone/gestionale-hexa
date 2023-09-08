@@ -2,18 +2,21 @@
 
 namespace App\DTOs;
 
-use WendellAdriel\ValidatedDTO\Casting\IntegerCast;
 use WendellAdriel\ValidatedDTO\ValidatedDTO;
 
-class NotifyDTO extends ValidatedDTO
+class RosterDTO extends ValidatedDTO
 {
     public int $user_id;
 
     public int $proof_id;
 
-    public int $question_id;
+    public string $date;
 
-    public array $notificationSendTo;
+    public string $from;
+
+    public string $to;
+
+    public array $data;
 
     /**
      * Defines the validation rules for the DTO.
@@ -23,8 +26,9 @@ class NotifyDTO extends ValidatedDTO
         return [
             'user_id' => 'exists:users,id|required',
             'proof_id' => 'exists:proofs,id|required',
-            'question_id' => 'exists:questions,id|required',
-            'notificationSendTo' => 'array|required',
+            'date' => 'date|date_format:Y-m-d|required',
+            'from' => ['string', 'required', 'regex:/^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/'],
+            'to' => ['string', 'required', 'regex:/^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/'],
         ];
     }
 
@@ -41,10 +45,7 @@ class NotifyDTO extends ValidatedDTO
      */
     protected function casts(): array
     {
-        return [
-            'user_id' => new IntegerCast(),
-            'proof_id' => new IntegerCast(),
-        ];
+        return [];
     }
 
     /**
@@ -63,8 +64,9 @@ class NotifyDTO extends ValidatedDTO
         return [
             'user_id' => $this->user_id,
             'proof_id' => $this->proof_id,
-            'question_id' => $this->question_id,
-            'notificationSendTo' => $this->notificationSendTo,
+            'data' => $this->data,
+            'from' => $this->from,
+            'to' => $this->to,
         ];
     }
 

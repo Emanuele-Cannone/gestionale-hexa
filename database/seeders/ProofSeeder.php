@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +38,6 @@ class ProofSeeder extends Seeder
             ['name' => 'Visite Prenatali'],
 
         ];
-
 
         DB::table('proofs')->insert($proofs);
 

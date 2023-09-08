@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */

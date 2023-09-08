@@ -12,7 +12,8 @@ class ProgenCreateCustomerException extends Exception
 {
     public function render(Request $request): RedirectResponse
     {
-        Session::flash('error_message', __('progen.customer.form_new_customer.error')); 
+        Session::flash('error_message', __('progen.customer.form_new_customer.error'));
+
         return Redirect::route('progen.create');
     }
 }

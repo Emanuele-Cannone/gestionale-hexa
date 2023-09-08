@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Exceptions\QuestionException;
 use App\Models\Question;
 use App\Models\Roster;
@@ -12,18 +11,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
-
 class QuestionService
 {
     /**
      * @param object
-     * @return array
      */
     public function create(object $questionDto): array
     {
 
         $questionResolveToUsers = [];
-
 
         // 1 Allattamento
         // 2 Aspettativa
@@ -49,15 +45,12 @@ class QuestionService
         // 22 Ufficio
         // 23 Visite Prenatali - almeno 15gg prima NON SERVE APPROVAZIONE
 
-
-
         // controllo che non ci sia una richiesta identica da parte dello stesso utente
         $questionExisting = Question::where('user_id', $questionDto->user_id)
-                            ->whereFrom($questionDto->from)
-                            ->whereTo($questionDto->to)
-                            ->whereNull('accepted')
-                            ->first();
-
+            ->whereFrom($questionDto->from)
+            ->whereTo($questionDto->to)
+            ->whereNull('accepted')
+            ->first();
 
         switch ($questionDto->proof_id) {
             case 8:
@@ -65,74 +58,70 @@ class QuestionService
 
                 // controllo che ci siano operatori nel turno per il quale sta chiedendo lo spostamento
                 $questionResolveToUsers = Roster::where('date', Carbon::createFromDate($questionDto->from)->format('Y-m-d'))
-                                    ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
-                                    ->where('user_id', '!=', $questionDto->user_id)
-                                    ->pluck('user_id');
-                                    // ->toSql();
+                    ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
+                    ->where('user_id', '!=', $questionDto->user_id)
+                    ->pluck('user_id');
+                // ->toSql();
 
                 // inserisco in un array tutti gli utenti a cui notificare la richiesta
                 $usersToNotify = Roster::where('date', Carbon::createFromDate($questionDto->from)->format('Y-m-d'))
-                                ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
-                                ->where('user_id', '!=', $questionDto->user_id)
-                                ->pluck('user_id');
+                    ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
+                    ->where('user_id', '!=', $questionDto->user_id)
+                    ->pluck('user_id');
 
                 break;
-                
+
             default:
                 // throw new QuestionException();
         }
-        
 
-        
-        if(!$questionExisting && $questionResolveToUsers){
+        if (! $questionExisting && $questionResolveToUsers) {
 
             try {
                 DB::beginTransaction();
 
-                $newQuestion = Question::create([ 
+                $newQuestion = Question::create([
                     'user_id' => $questionDto->user_id,
                     'proof_id' => $questionDto->proof_id,
                     'from' => $questionDto->from,
                     'to' => $questionDto->to,
                     'accepted' => $questionDto->accepted,
-                    'note' => $questionDto->note
+                    'note' => $questionDto->note,
                 ]);
 
                 $notificationSendTo = [];
 
                 foreach ($usersToNotify as $user) {
-                    
+
                     $notificationSendTo[$user] = [
-                        'read' => 0
+                        'read' => 0,
                     ];
-                };
+                }
 
                 $users_to = [
                     'user_id' => $newQuestion->user_id,
                     'proof_id' => $newQuestion->proof_id,
                     'question_id' => $newQuestion->id,
-                    'notificationSendTo' => $notificationSendTo
+                    'notificationSendTo' => $notificationSendTo,
                 ];
 
-                Session::flash('success_message', __('attendance.success')); 
-    
+                Session::flash('success_message', __('attendance.success'));
+
                 DB::commit();
-                
+
             } catch (Exception $e) {
 
                 DB::rollBack();
                 Log::error('richiesta fallita', [$e->getMessage()]);
-            
+
             }
 
         } else {
 
             throw new QuestionException();
-
         }
 
         return $users_to;
 
     }
-
 }

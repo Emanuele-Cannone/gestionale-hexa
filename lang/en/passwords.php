@@ -39,5 +39,4 @@ return [
     '2fa_regenerate_rec_codes' => 'Regenerate Recovery Codes',
     '2fa_show_rec_codes' => 'Show Recovery Codes',
 
-
 ];

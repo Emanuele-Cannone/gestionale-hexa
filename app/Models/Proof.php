@@ -11,9 +11,8 @@ class Proof extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
-
 
     /**
      * @return BelongsTo<Roster>
@@ -22,6 +21,4 @@ class Proof extends Model
     {
         return $this->BelongsTo(Roster::class);
     }
-
-    
 }

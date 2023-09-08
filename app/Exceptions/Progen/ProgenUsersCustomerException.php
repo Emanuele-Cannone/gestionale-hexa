@@ -12,7 +12,8 @@ class ProgenUsersCustomerException extends Exception
 {
     public function render(Request $request): RedirectResponse
     {
-        Session::flash('error_message', __('progen.customer.users.users_not_associated')); 
+        Session::flash('error_message', __('progen.customer.users.users_not_associated'));
+
         return Redirect::route('progen.index');
     }
 }

@@ -23,7 +23,7 @@ class ProgenUserStoreRequest extends FormRequest
     {
         return [
             'users' => ['array'],
-            'users_type' => ['string','required']
+            'users_type' => ['string', 'required'],
         ];
     }
 

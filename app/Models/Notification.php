@@ -14,14 +14,13 @@ class Notification extends Model
         'user_id',
         'question_id',
         'proof_id',
-        'users_to'
+        'users_to',
     ];
-
 
     /**
      * @return BelongsTo<User>
      */
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->BelongsTo(User::class);
     }
@@ -29,7 +28,7 @@ class Notification extends Model
     /**
      * @return BelongsTo<Proof>
      */
-    public function proof():BelongsTo
+    public function proof(): BelongsTo
     {
         return $this->BelongsTo(Proof::class);
     }

@@ -39,5 +39,5 @@ return [
         'photo' => 'Photo',
         'select_photo' => 'Select A New Photo',
         'remove_photo' => 'Remove Photo',
-    ]
+    ],
 ];

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProgenCustomerController extends Controller
 {
-
     public const IMPORT_TYPES = [
         0 => 'Single',
         1 => 'Massive',
@@ -25,23 +24,18 @@ class ProgenCustomerController extends Controller
 
     public const USER_TYPES = [
         0 => 'Standard',
-        1 => 'Random'
+        1 => 'Random',
     ];
 
-    /**
-     * @param ProgenCustomerService $progenCustomerService
-     */
-    public function __construct(readonly private ProgenCustomerService $progenCustomerService, readonly private ProgenUsersCustomerService $progenUsersCustomerService) 
+    public function __construct(readonly private ProgenCustomerService $progenCustomerService, readonly private ProgenUsersCustomerService $progenUsersCustomerService)
     {
     }
 
-    /**
-     * @return View
-     */
     public function index(): View
     {
 
         $progenCustomers = ProgenCustomer::paginate(15);
+
         return view('progen.customer.index', ['customers' => $progenCustomers]);
         // return view('progen.customer.index');
     }
@@ -56,8 +50,6 @@ class ProgenCustomerController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param ProgenCustomerStoreRequest $request
-     * @return RedirectResponse
      */
     public function store(ProgenCustomerStoreRequest $request): RedirectResponse
     {
@@ -83,11 +75,11 @@ class ProgenCustomerController extends Controller
 
         $users = User::all();
 
-        return view('progen.customer.edit', 
+        return view('progen.customer.edit',
             [
-                'customer' => $customer, 
+                'customer' => $customer,
                 'users' => $users,
-                'user_types' => self::USER_TYPES
+                'user_types' => self::USER_TYPES,
             ]
         );
     }
@@ -95,16 +87,15 @@ class ProgenCustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, String $id)
+    public function update(Request $request, string $id)
     {
         //
     }
 
     /**
      * Update the specified resource in storage.
-     * @param ProgenUserStoreRequest $request
      */
-    public function updateCustomerUsers(ProgenUserStoreRequest $request, String $id)
+    public function updateCustomerUsers(ProgenUserStoreRequest $request, string $id)
     {
         $this->progenUsersCustomerService->update($request, $id);
 

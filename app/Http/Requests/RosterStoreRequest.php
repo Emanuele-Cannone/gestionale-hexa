@@ -22,7 +22,7 @@ class RosterStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rosterFile' => 'required|file|mimes:xlsx|max:50000'
+            'rosterFile' => 'required|file|mimes:xlsx|max:50000',
         ];
     }
 }

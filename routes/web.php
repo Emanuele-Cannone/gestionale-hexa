@@ -26,12 +26,12 @@ Route::get('/', function () {
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })
-    ->name('dashboard');
+        ->name('dashboard');
 
     Route::resource('attendances', AttendanceController::class);
 
@@ -39,7 +39,6 @@ Route::middleware([
     Route::resource('rosters', RosterController::class);
     Route::post('downloadRosterEmptyFile', [RosterController::class, 'downloadEmptyFile'])->name('downloadRosterEmptyExcel');
     Route::post('importRosterFile', [RosterController::class, 'importRosterFile'])->name('importRosterFile');
-
 
     Route::resource('comunications', ComunicationController::class);
 

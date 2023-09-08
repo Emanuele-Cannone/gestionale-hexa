@@ -15,7 +15,7 @@ return [
 
     'previous' => '&laquo; Precedente',
     'next' => 'Prossima &raquo;',
-    'showing' =>'Mostrati',
+    'showing' => 'Mostrati',
     'of' => 'di',
     'to' => 'di',
     'results' => 'risultati',

@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Services\AttendanceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\AttendanceService;
 use Illuminate\Support\Facades\Redirect;
 
 class AttendanceController extends Controller
 {
-
-    /**
-     * @param AttendanceService $service
-     */
-    public function __construct(readonly private AttendanceService $service) 
+    public function __construct(readonly private AttendanceService $service)
     {
     }
 
@@ -34,7 +30,7 @@ class AttendanceController extends Controller
         return view('attendances.index',
             [
                 'attendances' => $attendances,
-                'activeAttendance' => $activeAttendance
+                'activeAttendance' => $activeAttendance,
             ]
         );
     }
@@ -53,6 +49,7 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {
         $this->service->create($request);
+
         return Redirect::route('attendances.index');
     }
 

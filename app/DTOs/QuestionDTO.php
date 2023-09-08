@@ -7,13 +7,17 @@ use WendellAdriel\ValidatedDTO\ValidatedDTO;
 
 class QuestionDTO extends ValidatedDTO
 {
-
     public string $user_id;
+
     public string $proof_id;
+
     public string $from;
+
     public string $to;
+
     public string $note;
 
+    public array $data;
 
     /**
      * Defines the validation rules for the DTO.
@@ -25,7 +29,7 @@ class QuestionDTO extends ValidatedDTO
             'proof_id' => 'exists:proofs,id|required',
             'from' => 'date|date_format:Y-m-d H:i:s|required',
             'to' => 'date|date_format:Y-m-d H:i:s|after:from|required',
-            'note' => 'string|nullable'
+            'note' => 'string|nullable',
         ];
     }
 
@@ -50,7 +54,10 @@ class QuestionDTO extends ValidatedDTO
      */
     protected function mapBeforeValidation(): array
     {
-        return [];
+        return [
+            'from' => Carbon::createFromFormat('d/m/y H:i', $this->data['startDay'].' '.$this->data['startTime'])->format('Y-m-d H:i:s'),
+            'to' => Carbon::createFromFormat('d/m/y H:i', $this->data['endDay'].' '.$this->data['endTime'])->format('Y-m-d H:i:s'),
+        ];
     }
 
     /**
@@ -64,7 +71,7 @@ class QuestionDTO extends ValidatedDTO
             'from' => $this->from,
             'to' => $this->to,
             'note' => $this->note,
-            'accepted' => null
+            'accepted' => null,
         ];
     }
 

@@ -30,7 +30,7 @@ class QuestionStoreRequest extends FormRequest
             'startTime' => 'date_format:H:i|required',
             'endDay' => 'string|required',
             'endTime' => 'date_format:H:i|required',
-            'note' => 'string|nullable'
+            'note' => 'string|nullable',
         ];
 
     }

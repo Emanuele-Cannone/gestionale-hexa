@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Exceptions\AttendanceException;
 use App\Models\Attendance;
 use Carbon\Carbon;
@@ -13,37 +12,31 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
-
 class AttendanceService
 {
-
-    /**
-     * @return void
-     */
     public function create(Request $request): void
     {
-        
+
         try {
             DB::beginTransaction();
 
             $activeAttendance = Attendance::where('user_id', Auth::id())->whereNull('leave')->first();
 
+            if ($activeAttendance) {
 
-            if($activeAttendance){
-    
                 $activeAttendance->update([
-                    'leave' => Carbon::now()
+                    'leave' => Carbon::now(),
                 ]);
-    
+
             } else {
-    
+
                 Attendance::create([
                     'user_id' => Auth::id(),
-                    'enter' => Carbon::now()
+                    'enter' => Carbon::now(),
                 ]);
-            }  
-    
-            Session::flash('success_message', __('attendance.success')); 
+            }
+
+            Session::flash('success_message', __('attendance.success'));
 
             DB::commit();
 
@@ -52,8 +45,6 @@ class AttendanceService
             DB::rollBack();
             Log::error('timbratira fallita', [$e->getMessage()]);
             throw new AttendanceException();
-        
         }
     }
-
 }

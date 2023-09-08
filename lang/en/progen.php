@@ -39,8 +39,8 @@ return [
             'user_leader' => 'Leader',
             'users_associated' => 'Users associated!',
             'users_disassociated' => 'Users disassociated!',
-            'users_not_associated' => 'Failed users association', 
-            'users_not_disassociated' => 'Failed users disassociation', 
+            'users_not_associated' => 'Failed users association',
+            'users_not_disassociated' => 'Failed users disassociation',
         ],
 
     ],
@@ -48,7 +48,7 @@ return [
     'import_types' => [
         'Single' => 'Single',
         'Massive' => 'Massive',
-        'Table' => 'From Table'
-    ]
+        'Table' => 'From Table',
+    ],
 
 ];

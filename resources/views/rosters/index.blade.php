@@ -4,6 +4,61 @@
 @endphp
 
 
+@section('script')
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        let event = @json($res);
+        let selector = document.querySelector("#id_selector");
+        let currentDayDate = new Date().toISOString().slice(0, 10);
+
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            height: 550,
+            locale: 'itLocale',
+            firstDay: 1,
+            buttonText : {
+                today:    'oggi',
+                month:    'mese',
+                week:     'settimana',
+                day:      'giorno',
+                list:     'lista'
+            },
+            allDayText: 'Intero giorno',
+            headerToolbar: {
+                start: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+                center: 'title',
+                end: 'today prev,next'
+            },
+            slotMinTime: '06:00:00',
+            displayEventEnd: true,
+            eventDisplay: 'block',
+            nowIndicator: true,
+            eventDidMount: function(arg) {
+                let val = selector.value;
+
+                if (!(val == arg.event.extendedProps.user_id || val == "all")) {
+                    arg.el.style.display = "none";
+                }
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                successCallback(event);
+            }
+            
+        });
+        calendar.render();
+    
+        selector.addEventListener('change', function() {
+            calendar.refetchEvents();
+        });
+    });
+
+</script>
+@endsection
+
 <x-app-layout>
 
     <div>
@@ -58,89 +113,20 @@
 
         </x-slot>
 
-        <div class="py-12" x-data>
-
-            
-            {{-- @if (Auth::id() == 11) --}}
-                {{-- User View --}}
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            {{ __('attendance.date') }}
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Giustificativo
-                                        </th>
-                                        @foreach ($hourInterval as $hour)
-                                            <th scope="col" class="px-2 py-3">
-                                                {{ $hour->format('H:i') }}
-                                            </th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($rosters as $user_roster)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-200">{{ Carbon::parse($user_roster->date)->format('d-m-Y') }}</th>
-                                            <th scope="row" class="px-2 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-gray-200">{{ $user_roster->proof }}</th>
-                                            @foreach ($hourInterval as $hour)
-                                                <td class="px-2 py-4">
-                                                    @if($user_roster[$hour->format('H:i')])
-                                                        <i class="fa-solid fa-circle-check"></i>
-                                                    @else
-                                                        <i class="fa-regular fa-circle"></i>
-                                                    @endif
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    @endforeach   
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {{ $rosters->links() }}
-                </div>
-            {{-- @elseif(Auth::id() == 12) --}}
-
-                {{-- TL View --}}
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            {{ __('attendance.date') }}
-                                        </th>
-                                        @foreach ($hourInterval as $hour)
-                                            <th scope="col" class="px-2 py-3">
-                                                {{ $hour->format('H:i') }}
-                                            </th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($rosters as $user_roster)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-200">{{ Carbon::parse($user_roster['date'])->format('d-m-Y') }}</th>
-                                            @foreach ($hourInterval as $hour)
-                                                <td class="px-2 py-4">{{ count(Roster::where('date', Carbon::parse($user_roster['date'])->format('Y-m-d'))->where($hour->format('H:i'), 1)->get()) }}</td>
-                                            @endforeach
-                                        </tr>
-                                    @endforeach   
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {{ $rosters->links() }}
-                </div>
-            {{-- @endif --}}
-
-        </div> 
+        {{-- <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"> --}}
+            <div class="py-12">
+                <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+                    
+                    <label for="id_selector" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleziona operatore per visualizzare i turni</label>
+                    <select id="id_selector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-sm p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="all" selected>Tutti</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                    
+                    <div id="calendar" class="bg-white mt-3 p-2"></div>
+                </div> 
+            </div> 
         
         
         

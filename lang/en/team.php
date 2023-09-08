@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'account_manage' => 'Manage Account'
+    'account_manage' => 'Manage Account',
 
 ];

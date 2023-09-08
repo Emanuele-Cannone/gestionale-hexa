@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-
     public function __construct(readonly private NotificationService $notificaitonService)
     {
 

@@ -19,13 +19,13 @@ return [
         'customer_name' => 'Nome cliente',
         'customer_code' => 'Codice cliente',
         'select_import_method' => 'Seleziona il metodo di importazione',
-        
+
         'form_new_customer' => [
             'single' => 'Singola',
             'massive' => 'Massiva',
             'from_table' => 'Da Tabella',
             'success' => 'Cliente creato con successo!',
-            'error' => 'Cliente non creato'
+            'error' => 'Cliente non creato',
         ],
 
         'edit_customer' => [
@@ -39,16 +39,16 @@ return [
             'user_leader' => 'Leader',
             'users_associated' => 'Utenti associati con successo!',
             'users_disassociated' => 'Utenti disassociati con successo!',
-            'users_not_associated' => 'Associazione utenti non riuscita', 
-            'users_not_disassociated' => 'Disassociazione utenti non riuscita', 
+            'users_not_associated' => 'Associazione utenti non riuscita',
+            'users_not_disassociated' => 'Disassociazione utenti non riuscita',
         ],
-        
+
     ],
 
     'import_types' => [
         'Single' => 'Singola',
         'Massive' => 'Massiva',
-        'Table' => 'Da Tabella'
-    ]
+        'Table' => 'Da Tabella',
+    ],
 
 ];
