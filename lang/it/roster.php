@@ -14,5 +14,7 @@ return [
     */
 
     'rosters' => 'Turni',
+    'select_user' => 'Seleziona operatore per visualizzare i turni',
+    'roster_import_message' => 'Attenzione!! Il file deve essere nominato \'turni-x\' dove x è il numero della settimana.',
 
 ];

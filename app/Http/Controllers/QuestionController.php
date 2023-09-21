@@ -35,12 +35,12 @@ class QuestionController extends Controller
      */
     public function index()
     {
-
         $questions = Question::whereNull('accepted')
             ->orderBy('created_at', 'DESC')
             ->paginate(5);
 
-        $proofs = Proof::orderBy('name', 'ASC')->get();
+        $proofs = Proof::where('user_manage', 1)
+            ->orderBy('name', 'ASC')->get();
 
         $ids = $questions->pluck('id');
 
@@ -57,7 +57,6 @@ class QuestionController extends Controller
      */
     public function create()
     {
-
         return view('questions.create');
     }
 
@@ -66,7 +65,6 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $questionStoreRequest): RedirectResponse
     {
-
         $data = [
             'user_id' => $questionStoreRequest->user_id,
             'proof_id' => $questionStoreRequest->proof_id,
@@ -77,8 +75,6 @@ class QuestionController extends Controller
 
         $validatedQuestionDto = QuestionDTO::fromArray($data);
 
-        dd($validatedQuestionDto);
-
         $notificationData = $this->questionService->create($validatedQuestionDto);
 
         $notify = NotifyDTO::fromArray($notificationData);
@@ -86,7 +82,6 @@ class QuestionController extends Controller
         $this->notificationService->create($notify);
 
         return Redirect::route('questions.index');
-
     }
 
     /**
@@ -118,11 +113,10 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-
         Notification::where('question_id', $question->id)->delete();
+
         $question->delete();
 
         return Redirect::route('questions.index');
-
     }
 }

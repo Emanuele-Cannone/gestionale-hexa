@@ -172,6 +172,8 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+
     ])->toArray(),
 
     /*

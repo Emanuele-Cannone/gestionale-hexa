@@ -13,29 +13,98 @@ class ProofSeeder extends Seeder
     public function run(): void
     {
         $proofs = [
-            ['name' => 'Allattamento'],
-            ['name' => 'Aspettativa'],
-            ['name' => 'Assistenza Familiare Con Grave Patologia'],
-            ['name' => 'Cambio Turno'],
-            ['name' => 'Congedo Matrimoniale'],
-            ['name' => 'Congedo Parentale'],
-            ['name' => 'Donazione Sangue'],
-            ['name' => 'Ferie'],
-            ['name' => 'Infortuno'],
-            ['name' => 'Lavoro Fuori Sede'],
-            ['name' => 'Lutto'],
-            ['name' => 'Malattia'],
-            ['name' => 'Maternità'],
-            ['name' => 'Paternità'],
-            ['name' => 'Permesso'],
-            ['name' => 'Permesso Sindacale'],
-            ['name' => 'Permesso 104'],
-            ['name' => 'Riposo'],
-            ['name' => 'SmartWorking'],
-            ['name' => 'Seggio Elettorale'],
-            ['name' => 'Studio'],
-            ['name' => 'Ufficio'],
-            ['name' => 'Visite Prenatali'],
+            [
+                'name' => 'Allattamento',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Aspettativa',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Assistenza Familiare Con Grave Patologia',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Cambio Turno',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Congedo Matrimoniale',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Congedo Parentale',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Donazione Sangue',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Ferie',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Infortuno',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Lavoro Fuori Sede',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Lutto',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Malattia',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Maternità',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Paternità',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'Permesso',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Permesso Sindacale',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Permesso 104',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Riposo',
+                'user_manage' => 0,
+            ],
+            [
+                'name' => 'SmartWorking',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Seggio Elettorale',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Studio',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Ufficio',
+                'user_manage' => 1,
+            ],
+            [
+                'name' => 'Visite Prenatali',
+                'user_manage' => 1,
+            ],
 
         ];
 

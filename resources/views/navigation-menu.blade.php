@@ -170,7 +170,7 @@
                             </x-dropdown-link>
 
                             <x-dropdown-link href="{{ route('questions.index') }}">
-                                {{ __('questions.questions') }}
+                                {{ __('question.questions') }}
                                 @if (count($questions) > 0)
                                     <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
                                         {{ count($questions) }}
@@ -257,7 +257,7 @@
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link href="{{ route('questions.index') }}" :active="request()->routeIs('questions.index')">
-                    {{ __('questions.questions') }}
+                    {{ __('question.questions') }}
                     @if (count($questions) > 0)
                     <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
                         {{ count($questions) }}

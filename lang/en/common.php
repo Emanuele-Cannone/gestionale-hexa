@@ -14,7 +14,7 @@ return [
     */
 
     'save' => 'Save',
-    'saved' => 'Saved',
+    'saved' => 'Saved.',
     'code' => 'Code',
     'done' => 'Done',
     'enable' => 'Enable',
@@ -24,6 +24,7 @@ return [
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
     'unknown' => 'Unknown',
+    'password' => 'Password',
     'this_device' => 'This Device',
     'last_active' => 'Last Active',
     'pag_showing' => 'Showing',
@@ -35,9 +36,15 @@ return [
     'actions' => 'Actions',
     'name' => 'Name',
     'email' => 'Email',
-    'Photo' => [
+    'photo' => [
         'photo' => 'Photo',
         'select_photo' => 'Select A New Photo',
         'remove_photo' => 'Remove Photo',
     ],
+    'user' => 'User',
+    'all' => 'All',
+    'status' => 'Status',
+    'start' => 'Begin',
+    'end' => 'End',
+    'note' => 'Notes',
 ];

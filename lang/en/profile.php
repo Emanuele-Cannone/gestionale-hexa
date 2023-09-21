@@ -15,7 +15,7 @@ return [
 
     'profile' => 'Profile',
     'profile_information' => 'Profile Information',
-    'profile_information_upload' => 'Update your account\'s profile information and email address.',
+    'profile_information_description' => 'Update your account\'s profile information and email address.',
     'profile_email_unverified' => 'Your email address is unverified.',
     'profile_resend_verification_email' => 'Click here to re-send the verification email.',
     'profile_verification_email_sent' => 'A new verification link has been sent to your email address.',
@@ -35,4 +35,37 @@ return [
     'dark_mode_enable_info' => 'Choose light or dark theme',
 
     'users' => 'Users',
+
+    'languages' => 'Languages',
+    'language' => 'Language',
+    'select_language' => 'Select language',
+    'available_languages' => 'Available languages',
+
+    'theme' => 'Theme',
+    'select_theme' => 'Select your favourite theme',
+
+    '2fa' => 'Two Factor Authentication',
+    '2fa_description' => 'Add additional security to your account using two factor authentication.',
+    '2fa_finish_enabling' => 'Finish enabling two factor authentication.',
+    '2fa_enabled' => 'You have enabled two factor authentication.',
+    '2fa_not_enabled' => 'You have not enabled two factor authentication.',
+    '2fa_enabled_info' => 'When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.',
+    '2fa_enabling' => 'To finish enabling two factor authentication, scan the following QR code using your phone\'s authenticator application or enter the setup key and provide the generated OTP code.',
+    '2fa_enabling_2' => 'Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application or enter the setup key.',
+    '2fa_code_info' => 'Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.',
+    'setup_key' => 'Setup Key',
+    '2fa_code_restore' => 'Regenerate Recovery Codes',
+    '2fa_code_show' => 'Show Recovery Codes',
+    '2fa_auth_confirm' => 'Please confirm access to your account by entering the authentication code provided by your authenticator application.',
+    '2fa_insert_key' => 'Please confirm access to your account by entering one of your emergency recovery codes.',
+    '2fa_recovery_code' => 'Recovery Code',
+    '2fa_use_code' => 'Use a recovery code',
+    '2fa_use_auth_code' => 'Use an authentication code',
+
+    'update_password' => 'Update Password',
+    'update_password_info' => 'Ensure your account is using a long, random password to stay secure.',
+    'current_password' => 'Current Password',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm Password',
+
 ];

@@ -14,7 +14,7 @@ return [
     */
 
     'save' => 'Salva',
-    'saved' => 'Salvato',
+    'saved' => 'Salvato.',
     'code' => 'Codice',
     'done' => 'Fatto',
     'enable' => 'Abilita',
@@ -24,6 +24,7 @@ return [
     'confirm' => 'Conferma',
     'cancel' => 'Annulla',
     'unknown' => 'Sconosciuto',
+    'password' => 'Password',
     'this_device' => 'Questo Device',
     'last_active' => 'Ultimo Accesso',
     'pag_showing' => 'Mostrati',
@@ -35,9 +36,15 @@ return [
     'actions' => 'Azioni',
     'name' => 'Nome',
     'email' => 'Email',
-    'Photo' => [
+    'photo' => [
         'photo' => 'Foto',
         'select_photo' => 'Seleziona nuova Foto',
         'remove_photo' => 'Rimuovi Foto',
     ],
+    'user' => 'Utente',
+    'all' => 'Tutti',
+    'status' => 'Stato',
+    'start' => 'Inizio',
+    'end' => 'Fine',
+    'note' => 'Note',
 ];

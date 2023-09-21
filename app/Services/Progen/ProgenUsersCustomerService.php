@@ -8,7 +8,6 @@ use App\Models\Progen\ProgenCustomer;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class ProgenUsersCustomerService
 {
@@ -27,7 +26,7 @@ class ProgenUsersCustomerService
 
             DB::commit();
 
-            Session::flash('success_message', __('progen.customer.users.users_associated'));
+            smilify('success', 'You are successfully reconnected');
 
         } catch (Exception $e) {
 

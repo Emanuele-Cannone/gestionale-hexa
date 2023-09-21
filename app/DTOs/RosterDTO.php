@@ -16,8 +16,6 @@ class RosterDTO extends ValidatedDTO
 
     public string $to;
 
-    public array $data;
-
     /**
      * Defines the validation rules for the DTO.
      */
@@ -64,7 +62,7 @@ class RosterDTO extends ValidatedDTO
         return [
             'user_id' => $this->user_id,
             'proof_id' => $this->proof_id,
-            'data' => $this->data,
+            'data' => $this->date,
             'from' => $this->from,
             'to' => $this->to,
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Language;
 use App\Models\Notification;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'questions' => Question::all(),
                         'notifications' => Notification::whereJsonContains('users_to->'.Auth::id(), ['read' => 0])->get(),
+                        'languages' => Language::all(),
                     ]
                 );
             }

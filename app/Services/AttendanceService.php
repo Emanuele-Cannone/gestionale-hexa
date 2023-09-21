@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class AttendanceService
 {
@@ -36,7 +35,7 @@ class AttendanceService
                 ]);
             }
 
-            Session::flash('success_message', __('attendance.success'));
+            smilify('success', __('attendance.success'));
 
             DB::commit();
 
