@@ -18,4 +18,12 @@ return [
     'incorrect_any' => 'L\'utente non dispone dei diritti di accesso necessari.',
     'user_not_logged' => 'L\'utente non ha effettuato il login.',
 
+    'role' => 'Ruolo',
+    'new_role' => 'Nuovo Ruolo',
+    'roles' => 'Ruoli',
+    'role_description' => 'Crea un nuovo Ruolo',
+    'role_name' => 'Nome',
+    'delete_role' => 'Elimina Ruolo',
+    'warning_message' => 'Attenzione!! Questa operazione deve essere effettuata solo in assenza di utenti con questo ruolo associato!',
+
 ];
