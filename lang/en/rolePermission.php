@@ -18,4 +18,12 @@ return [
     'incorrect_any' => 'User does not have any of the necessary access rights.',
     'user_not_logged' => 'User is not logged in.',
 
+    'role' => 'Role',
+    'new_role' => 'New Role',
+    'roles' => 'Roles',
+    'role_description' => 'Create a new Role',
+    'role_name' => 'Name',
+    'delete_role' => 'Delete Role',
+    'warning_message' => 'Warning!!! This operation should be done only in the absence of users with this associated role!',
+
 ];

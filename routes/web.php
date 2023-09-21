@@ -5,6 +5,7 @@ use App\Http\Controllers\ComunicationController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Progen\ProgenCustomerController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RosterController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,7 +55,7 @@ Route::middleware([
     Route::resource('comunications', ComunicationController::class);
 
     // Routes protected by role
-    Route::group(['middleware' => ['role:Super-Admin']], function () {
-        //
+    Route::group(['middleware' => ['role:Admin']], function () {
+        Route::resource('roles', RoleController::class);
     });
 });
