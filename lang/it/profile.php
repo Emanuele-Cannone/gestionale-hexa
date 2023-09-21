@@ -15,7 +15,7 @@ return [
 
     'profile' => 'Profilo',
     'profile_information' => 'Informazioni Profilo',
-    'profile_information_upload' => 'Aggiorna le informazioni del profilo del tuo account e dell\'indirizzo e-mail.',
+    'profile_information_description' => 'Aggiorna le informazioni del profilo del tuo account e dell\'indirizzo e-mail.',
     'profile_email_unverified' => 'Il tuo indirizzo e-mail non è verificato.',
     'profile_resend_verification_email' => 'Fare clic qui per inviare nuovamente l\'e-mail di verifica.',
     'profile_verification_email_sent' => 'Un nuovo link di verifica è stato inviato al tuo indirizzo e-mail.',
@@ -35,5 +35,37 @@ return [
     'dark_mode_enable_info' => 'Scegli il tema chiaro o scuro',
 
     'users' => 'Utenti',
+
+    'languages' => 'Lingue',
+    'language' => 'Lingua',
+    'select_language' => 'Seleziona la lingua di visualizzazione',
+    'available_languages' => 'Lingue disponibili',
+
+    'theme' => 'Tema',
+    'select_theme' => 'Seleziona il tema preferito',
+
+    '2fa' => 'Autenticazione a due fattori',
+    '2fa_description' => 'Aggiungi un ulteriore sicurezza al tuo account utilizzando l\'autenticazione a due fattori.',
+    '2fa_finish_enabling' => 'Terminare l\'abilitazione dell\'autenticazione a due fattori.',
+    '2fa_enabled' => 'È stata attivata l\'autenticazione a due fattori.',
+    '2fa_not_enabled' => 'Non è stata attivata l\'autenticazione a due fattori.',
+    '2fa_enabled_info' => 'Quando l\'autenticazione a due fattori è abilitata, durante l\'autenticazione verrà richiesto un token sicuro e casuale. Questo token può essere recuperato dall\'applicazione Google Authenticator del telefono.',
+    '2fa_enabling' => 'Per terminare l\'abilitazione dell\'autenticazione a due fattori, scansionare il seguente codice QR utilizzando l\'applicazione Authenticator del telefono o inserire la chiave di configurazione e fornire il codice OTP generato.',
+    '2fa_enabling_2' => 'L\'autenticazione a due fattori è ora abilitata. Scansionare il seguente codice QR utilizzando l\'applicazione Authenticator del telefono o immettere la chiave di configurazione.',
+    '2fa_code_info' => 'Conserva questi codici di recupero in un gestore di password sicuro. Possono essere utilizzati per recuperare l\'accesso al proprio account in caso di smarrimento del dispositivo di autenticazione a due fattori.',
+    'setup_key' => 'Setup Key',
+    '2fa_code_restore' => 'Rigenera codici di recupero',
+    '2fa_code_show' => 'Mostra codici di recupero',
+    '2fa_auth_confirm' => 'Conferma l\'accesso al tuo account inserendo il codice di autenticazione fornito dall\'applicazione authenticator.',
+    '2fa_insert_key' => 'Conferma l\'accesso al vostro conto inserendo uno dei vostri codici di recupero di emergenza.',
+    '2fa_recovery_code' => 'Codice di recupero',
+    '2fa_use_code' => 'Usa un codice di recupero',
+    '2fa_use_auth_code' => 'Usa un codice di autenticazione',
+
+    'update_password' => 'Aggiorna Password',
+    'update_password_info' => 'Assicurati che il tuo account utilizzi una password lunga e casuale per rimanere al sicuro.',
+    'current_password' => 'Password attuale',
+    'new_password' => 'Nuova password',
+    'confirm_password' => 'Conferma password',
 
 ];

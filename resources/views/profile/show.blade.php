@@ -7,10 +7,16 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-                @livewire('profile.update-profile-information-form')
 
-                <x-section-border />
+
+            @if((Auth::check() && Auth::user()->hasRole('Admin')))
+
+                @if (Laravel\Fortify\Features::canUpdateProfileInformation())
+                    @livewire('profile.update-profile-information-form')
+
+                    <x-section-border />
+                @endif            
+
             @endif
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
@@ -20,6 +26,18 @@
 
                 <x-section-border />
             @endif
+
+            <div class="mt-10 sm:mt-0">
+                @livewire('choose-language')
+            </div>
+            
+            <x-section-border />
+
+            <div class="mt-10 sm:mt-0">
+                @livewire('dark-mode')
+            </div>
+            
+            <x-section-border />
 
             @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
                 <div class="mt-10 sm:mt-0">
@@ -33,12 +51,15 @@
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
 
-            @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
-                <x-section-border />
+            @if((Auth::check() && Auth::user()->hasRole('Admin')))
 
-                <div class="mt-10 sm:mt-0">
-                    @livewire('profile.delete-user-form')
-                </div>
+                @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+                    <x-section-border />
+
+                    <div class="mt-10 sm:mt-0">
+                        @livewire('profile.delete-user-form')
+                    </div>
+                @endif
             @endif
         </div>
     </div>

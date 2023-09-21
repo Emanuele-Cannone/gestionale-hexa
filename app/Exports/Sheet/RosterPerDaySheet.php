@@ -4,23 +4,22 @@ namespace App\Exports\Sheet;
 
 use App\Models\Proof;
 use App\Models\User;
-use Carbon\CarbonPeriod;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
-use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithEvents, WithHeadings
+class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFormatting, WithEvents, WithHeadings, WithTitle
 {
     use Exportable;
 
-    protected $weekNumber;
+    protected $day;
 
     protected $selects;
 
@@ -28,9 +27,9 @@ class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFor
 
     protected $column_count;
 
-    public function __construct(object $weekNumber)
+    public function __construct(string $day)
     {
-        $this->weekNumber = $weekNumber;
+        $this->day = $day;
 
         $users = User::select('id', 'name')->get();
 
@@ -54,15 +53,6 @@ class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFor
     public function headings(): array
     {
 
-        $from = $this->weekNumber->startOfWeek()->format('d-m-Y');
-
-        $to = $this->weekNumber->endOfWeek()->format('d-m-Y');
-
-        $period = CarbonPeriod::create($from, $to);
-
-        // Convert the period to an array of dates
-        $emptyRosterDays = $period->toArray();
-
         $heading = [];
 
         // Aggiungo la colonna utenti
@@ -70,11 +60,9 @@ class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFor
             'id_utente',
             'nominativo',
             'giustificativo',
+            'inizio',
+            'fine',
         ];
-
-        foreach ($emptyRosterDays as $day) {
-            $heading[] = $day->format('Y-m-d');
-        }
 
         return $heading;
     }
@@ -89,21 +77,14 @@ class RosterPerDaySheet implements FromCollection, ShouldAutoSize, WithColumnFor
     public function columnFormats(): array
     {
         return [
-            // 'D' => PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME3,
-            // 'E' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'G' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'H' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'I' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'J' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'K' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'L' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'M' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'N' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'O' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'P' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            // 'Q' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'D' => NumberFormat::FORMAT_DATE_TIME3,
+            'E' => NumberFormat::FORMAT_DATE_TIME3,
         ];
+    }
+
+    public function title(): string
+    {
+        return $this->day;
     }
 
     public function registerEvents(): array

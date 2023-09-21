@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ComunicationController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Progen\ProgenCustomerController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RosterController;
-use App\Models\Question;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,10 +28,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })
-        ->name('dashboard');
+    })->name('dashboard');
+
+    /** Localization */
+    Route::get('change/{language:locale}', [LanguageController::class, 'changeLocale'])
+        ->name('change.language');
 
     Route::resource('attendances', AttendanceController::class);
 
@@ -40,8 +44,6 @@ Route::middleware([
     Route::post('downloadRosterEmptyFile', [RosterController::class, 'downloadEmptyFile'])->name('downloadRosterEmptyExcel');
     Route::post('importRosterFile', [RosterController::class, 'importRosterFile'])->name('importRosterFile');
 
-    Route::resource('comunications', ComunicationController::class);
-
     // Progen routes
     Route::resource('progen', ProgenCustomerController::class);
     Route::put('updateCustomerUsers/{id}', [ProgenCustomerController::class, 'updateCustomerUsers'])->name('progen.updateCustomerUsers');
@@ -49,4 +51,10 @@ Route::middleware([
     // Question routes
     Route::resource('questions', QuestionController::class);
 
+    Route::resource('comunications', ComunicationController::class);
+
+    // Routes protected by role
+    Route::group(['middleware' => ['role:Super-Admin']], function () {
+        //
+    });
 });

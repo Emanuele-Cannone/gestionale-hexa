@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ContractTypeSeeder::class,
             ProofSeeder::class,
+            RoleSeeder::class,
+            PermissionSeeder::class,
             // ComunicationSeeder::class,
         ]);
 
@@ -31,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('emanuele'),
             'remember_token' => Str::random(10),
             'current_team_id' => Team::factory()->create()->id,
-        ]);
+        ])->assignRole('Admin');
 
         User::create([
             'name' => 'Guest',
@@ -39,6 +41,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('emanuele'),
             'remember_token' => Str::random(10),
             'current_team_id' => Team::factory()->create()->id,
-        ]);
+        ])->assignRole('Operator')->givePermissionTo('import roster');
     }
 }

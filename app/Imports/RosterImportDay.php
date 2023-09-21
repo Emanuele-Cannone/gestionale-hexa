@@ -5,79 +5,75 @@ namespace App\Imports;
 use App\DTOs\RosterDTO;
 use App\Models\Proof;
 use App\Models\Roster;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithStartRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class RosterImportDay implements SkipsEmptyRows, ToCollection, WithChunkReading
+class RosterImportDay implements SkipsEmptyRows, ToCollection, WithChunkReading, WithStartRow
 {
-    protected $weekDay;
+    use Importable;
 
-    public function __construct(string $weekDay)
+    protected $day;
+
+    public function __construct(string $day)
     {
-        $this->weekDay = $weekDay;
+        $this->day = $day;
 
     }
 
-    public function collection(Collection $collection)
+    public function collection(collection $rows)
     {
 
-        $arrayRoster = $collection->toArray();
+        foreach ($rows as $row) {
 
-        $arrayColumns = $arrayRoster[0];
+            $proof = Proof::whereName($row[2])->first();
 
-        foreach ($arrayRoster as $key => $rosterDay) {
+            $data = [
+                'user_id' => $row[0],
+                'proof_id' => $proof->id,
+                'date' => $this->day,
+                'from' => Date::excelToDateTimeObject($row[3])->format('H:i:s'),
+                'to' => Date::excelToDateTimeObject($row[4])->format('H:i:s'),
+            ];
 
-            if ($key != 0) {
+            $validatedRosterDto = RosterDTO::fromArray($data);
 
-                $newRoster = array_combine($arrayColumns, $rosterDay);
-
-                for ($i = 3; $i < 10; $i++) {
-
-                    $arrayRosterDay = explode('-', $newRoster[$arrayColumns[$i]]);
-
-                    $proof = Proof::where('name', $rosterDay[2])->pluck('id')->toArray();
-
-                    if ($arrayRosterDay) {
-
-                        $data = [
-                            'date' => $arrayColumns[$i],
-                            'user_id' => $rosterDay[0],
-                            'proof_id' => (int) $proof[0],
-                            'from' => Carbon::createFromFormat('H:i', $arrayRosterDay[0])->format('H:i:s'),
-                            'to' => Carbon::createFromFormat('H:i', $arrayRosterDay[1])->format('H:i:s'),
-                        ];
-
-                        if ($data['from'] < $data['to']) {
-
-                            $validatedRosterDto = RosterDTO::fromArray($data);
-
-                            Roster::UpdateOrCreate([
-                                'date' => $validatedRosterDto->date,
-                                'user_id' => $validatedRosterDto->user_id,
-                                'proof_id' => $validatedRosterDto->proof_id,
-                                'from' => $validatedRosterDto->from,
-                                'to' => $validatedRosterDto->to,
-                            ],
-                                ['user_id', 'date']
-                            );
-
-                        }
-
-                    }
-
-                }
-
-            }
-
+            Roster::updateOrCreate(
+                [
+                    'user_id' => $validatedRosterDto->validatedData['user_id'],
+                    'date' => $validatedRosterDto->validatedData['date'],
+                ],
+                [
+                    'proof_id' => $validatedRosterDto->validatedData['proof_id'],
+                    'from' => $validatedRosterDto->validatedData['from'],
+                    'to' => $validatedRosterDto->validatedData['to'],
+                ]
+            );
         }
 
+    }
+
+    public function customValidationAttributes(): array
+    {
+        return [
+            '1' => 'exists:users,id',
+            '2' => 'exists:proofs,name',
+            '3' => 'regex:/^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/',
+            '4' => 'regex:/^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/',
+        ];
     }
 
     public function chunkSize(): int
     {
         return 300;
+    }
+
+    public function startRow(): int
+    {
+        return 2;
     }
 }

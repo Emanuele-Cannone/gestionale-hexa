@@ -5,35 +5,67 @@ namespace App\Http\Controllers;
 use App\Exceptions\QuestionException;
 use App\Exports\RosterExampleImport;
 use App\Http\Requests\RosterStoreRequest;
-use App\Imports\RosterImport;
 use App\Models\Roster;
+use App\Services\RosterService;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
-use Maatwebsite\Excel\Facades\Excel;
 
 class RosterController extends Controller
 {
+    protected $rosterService;
+
+    public function __construct()
+    {
+        $this->rosterService = new RosterService();
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $res = [];
 
-        $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
-            ->with('proof')
-            ->get();
+        if (Auth::check() && Auth::user()->hasRole(['Admin', 'Team Leader'])) {
 
-        foreach ($data as $v) {
+            $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
+                ->with('proof')
+                ->get();
 
-            $res[] = [
-                'id' => $v->id,
-                'title' => $v->user->name.' - '.$v->proof->name,
-                'start' => $v->date.' '.$v->from,
-                'end' => $v->date.' '.$v->to,
-                'user_id' => $v->user_id,
-            ];
+            foreach ($data as $v) {
 
+                $res[] = [
+                    'id' => $v->id,
+                    'title' => $v->user->name.' - '.$v->proof->name,
+                    'start' => $v->date.' '.$v->from,
+                    'end' => $v->date.' '.$v->to,
+                    'user_id' => $v->user_id,
+                    'user_name' => $v->user->name,
+                ];
+
+            }
+        }
+
+        if (Auth::check() && Auth::user()->hasRole('Operator')) {
+
+            $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
+                ->where('user_id', Auth::id())
+                ->with('proof')
+                ->get();
+
+            foreach ($data as $v) {
+
+                $res[] = [
+                    'id' => $v->id,
+                    'title' => $v->proof->name,
+                    'start' => $v->date.' '.$v->from,
+                    'end' => $v->date.' '.$v->to,
+                    'user_id' => $v->user_id,
+                    'user_name' => $v->user->name,
+                ];
+            }
         }
 
         // credo il periodo temporale in base al numero della settimana corrente
@@ -41,7 +73,7 @@ class RosterController extends Controller
         $weeksOfYearAvailable = [];
         $currentWeekOfYear = $today->weekOfYear;
 
-        for ($i = 1; $i < 53; $i++) {
+        for ($i = 1; $i <= 53; $i++) {
             if ($i >= ($currentWeekOfYear - 4)) {
                 $weeksOfYearAvailable[] = $i;
             }
@@ -112,7 +144,6 @@ class RosterController extends Controller
 
     public function importRosterFile(RosterStoreRequest $rosterStoreRequest)
     {
-
         $pattern = '/^turni-(?:[1-9]|[1-4][0-9]|52)$/i';
 
         $str = pathinfo($rosterStoreRequest->file('rosterFile')->getClientOriginalName(), PATHINFO_FILENAME);
@@ -121,9 +152,9 @@ class RosterController extends Controller
 
         $arrayRosterWeek = explode('-', pathinfo($rosterStoreRequest->file('rosterFile')->getClientOriginalName(), PATHINFO_FILENAME));
 
-        $rosterWeek = $arrayRosterWeek[1];
+        $weekOfYear = $arrayRosterWeek[1];
 
-        Excel::import(new RosterImport($rosterWeek), $rosterStoreRequest->file('rosterFile'));
+        $this->rosterService->rosterImport($weekOfYear, $rosterStoreRequest->file('rosterFile'));
 
         return Redirect::route('rosters.index');
     }

@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class QuestionService
 {
@@ -105,7 +104,7 @@ class QuestionService
                     'notificationSendTo' => $notificationSendTo,
                 ];
 
-                Session::flash('success_message', __('attendance.success'));
+                smilify('success', 'You are successfully reconnected');
 
                 DB::commit();
 

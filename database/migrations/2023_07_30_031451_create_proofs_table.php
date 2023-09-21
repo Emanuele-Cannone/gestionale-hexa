@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('proofs', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->boolean('user_manage');
             $table->timestamps();
         });
     }
