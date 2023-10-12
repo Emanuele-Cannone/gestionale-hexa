@@ -24,7 +24,7 @@ class NotifyDTO extends ValidatedDTO
             'user_id' => 'exists:users,id|required',
             'proof_id' => 'exists:proofs,id|required',
             'question_id' => 'exists:questions,id|required',
-            'notificationSendTo' => 'array|required',
+            'notificationSendTo' => 'array',
         ];
     }
 

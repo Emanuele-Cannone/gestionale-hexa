@@ -21,4 +21,9 @@ class ProgenCustomer extends Model
         return $this->belongsToMany(User::class)
             ->withPivot(['leader', 'user_type']);
     }
+
+    public function progenCustomerProduct()
+    {
+        return $this->hasMany(ProgenCustomerProduct::class);
+    }
 }

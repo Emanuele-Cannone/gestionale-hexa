@@ -20,12 +20,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ContractTypeSeeder::class,
             ProofSeeder::class,
-            RoleSeeder::class,
             PermissionSeeder::class,
+            RoleSeeder::class,
+            ProgenFeatureSeeder::class,
             // ComunicationSeeder::class,
         ]);
 
-        // Comunication::factory(10)->create();
+        User::factory(10)->create();
 
         User::create([
             'name' => 'Emanuele',
@@ -41,6 +42,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('emanuele'),
             'remember_token' => Str::random(10),
             'current_team_id' => Team::factory()->create()->id,
-        ])->assignRole('Operator')->givePermissionTo('import roster');
+        ])->assignRole('Operator');
     }
 }

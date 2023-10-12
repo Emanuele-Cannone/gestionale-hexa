@@ -17,7 +17,6 @@ class QuestionService
      */
     public function create(object $questionDto): array
     {
-
         $questionResolveToUsers = [];
 
         // 1 Allattamento
@@ -57,14 +56,14 @@ class QuestionService
 
                 // controllo che ci siano operatori nel turno per il quale sta chiedendo lo spostamento
                 $questionResolveToUsers = Roster::where('date', Carbon::createFromDate($questionDto->from)->format('Y-m-d'))
-                    ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
+                    ->where('to', '>=',Carbon::createFromDate($questionDto->from)->format('H:i:s'))
                     ->where('user_id', '!=', $questionDto->user_id)
                     ->pluck('user_id');
                 // ->toSql();
 
                 // inserisco in un array tutti gli utenti a cui notificare la richiesta
                 $usersToNotify = Roster::where('date', Carbon::createFromDate($questionDto->from)->format('Y-m-d'))
-                    ->where(Carbon::createFromDate($questionDto->from)->format('H:i'), 1)
+                    ->where('to', '>=',Carbon::createFromDate($questionDto->from)->format('H:i:s'))
                     ->where('user_id', '!=', $questionDto->user_id)
                     ->pluck('user_id');
 
@@ -74,7 +73,7 @@ class QuestionService
                 // throw new QuestionException();
         }
 
-        if (! $questionExisting && $questionResolveToUsers) {
+        if (!$questionExisting && $questionResolveToUsers) {
 
             try {
                 DB::beginTransaction();

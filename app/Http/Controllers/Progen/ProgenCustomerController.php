@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Progen\ProgenCustomerStoreRequest;
 use App\Http\Requests\Progen\ProgenUserStoreRequest;
 use App\Models\Progen\ProgenCustomer;
+use App\Models\Progen\ProgenCustomerProduct;
 use App\Models\User;
 use App\Services\Progen\ProgenCustomerService;
 use App\Services\Progen\ProgenUsersCustomerService;
@@ -36,7 +37,7 @@ class ProgenCustomerController extends Controller
 
         $progenCustomers = ProgenCustomer::paginate(15);
 
-        return view('progen.customer.index', ['customers' => $progenCustomers]);
+        return view('progen.customers.index', ['customers' => $progenCustomers]);
         // return view('progen.customer.index');
     }
 
@@ -45,7 +46,7 @@ class ProgenCustomerController extends Controller
      */
     public function create()
     {
-        return view('progen.customer.create', ['arrayImportTypes' => self::IMPORT_TYPES]);
+        return view('progen.customers.create', ['arrayImportTypes' => self::IMPORT_TYPES]);
     }
 
     /**
@@ -75,11 +76,14 @@ class ProgenCustomerController extends Controller
 
         $users = User::all();
 
-        return view('progen.customer.edit',
+        $customerProducts = ProgenCustomerProduct::where('progen_customer_id', $customer->id)->paginate(15);
+
+        return view('progen.customers.edit',
             [
                 'customer' => $customer,
                 'users' => $users,
                 'user_types' => self::USER_TYPES,
+                'customerProducts' => $customerProducts
             ]
         );
     }

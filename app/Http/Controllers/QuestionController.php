@@ -73,6 +73,7 @@ class QuestionController extends Controller
             'note' => $questionStoreRequest->note ?? '',
         ];
 
+        
         $validatedQuestionDto = QuestionDTO::fromArray($data);
 
         $notificationData = $this->questionService->create($validatedQuestionDto);

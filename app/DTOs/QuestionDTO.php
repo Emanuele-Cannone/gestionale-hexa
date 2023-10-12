@@ -54,10 +54,7 @@ class QuestionDTO extends ValidatedDTO
      */
     protected function mapBeforeValidation(): array
     {
-        return [
-            'from' => Carbon::createFromFormat('d/m/y H:i', $this->data['startDay'].' '.$this->data['startTime'])->format('Y-m-d H:i:s'),
-            'to' => Carbon::createFromFormat('d/m/y H:i', $this->data['endDay'].' '.$this->data['endTime'])->format('Y-m-d H:i:s'),
-        ];
+        return [];
     }
 
     /**

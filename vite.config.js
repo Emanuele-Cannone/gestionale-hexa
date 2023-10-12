@@ -8,6 +8,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/sass/tagify.scss',
+                `resources/js/tagify.js`,
             ],
             refresh: [
                 ...refreshPaths,

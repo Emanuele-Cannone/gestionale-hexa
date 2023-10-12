@@ -78,6 +78,10 @@
                                             {{__('progen.customer.edit_customer.manage_people')}}
                                             <i class="fa-solid fa-people-group"></i>
                                         </a>
+                                        <a href="{{route('progen-products.show', $customer->id)}}" class="ml-2 focus:outline-none text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+                                            {{__('progen.products.manage_products')}}
+                                            <i class="fa-solid fa-network-wired"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

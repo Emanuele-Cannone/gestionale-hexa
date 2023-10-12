@@ -13,7 +13,7 @@ class RosterImport implements SkipsEmptyRows, WithChunkReading, WithMultipleShee
 {
     use Importable;
 
-    protected $weekOfYear;
+    public string $weekOfYear;
 
     public function __construct(string $weekOfYear)
     {
@@ -33,7 +33,7 @@ class RosterImport implements SkipsEmptyRows, WithChunkReading, WithMultipleShee
     {
         $today = Carbon::now();
 
-        $weekNumber = $today->setISODate(date('Y'), $this->weekOfYear);
+        $weekNumber = $today->setISODate(date('Y'), (int) $this->weekOfYear);
 
         $from = $weekNumber->startOfWeek()->format('d-m-Y');
 

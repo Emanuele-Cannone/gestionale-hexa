@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('question/{id}', [\App\Http\Controllers\Api\QuestionController::class, 'getQuestionData']);
-Route::get('rosters', [\App\Http\Controllers\Api\RosterController::class, 'getRosters']);
+// Route::get('rosters', [\App\Http\Controllers\Api\RosterController::class, 'getRosters']);

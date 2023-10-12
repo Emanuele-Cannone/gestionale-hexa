@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Progen\ProgenCustomer;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Tags\HasTags;
 
 class User extends Authenticatable
 {
@@ -24,6 +26,7 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasTags;
 
     /**
      * The attributes that are mass assignable.
@@ -63,6 +66,7 @@ class User extends Authenticatable
     // protected $appends = [
     //     'profile_photo_url',
     // ];
+
 
     /**
      * @return HasMany<Attendance>

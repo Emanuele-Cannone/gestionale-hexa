@@ -7,7 +7,6 @@ use App\Exports\RosterExampleImport;
 use App\Http\Requests\RosterStoreRequest;
 use App\Models\Roster;
 use App\Services\RosterService;
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
@@ -19,6 +18,7 @@ class RosterController extends Controller
     public function __construct()
     {
         $this->rosterService = new RosterService();
+        // $this->authorizeResource(Roster::class, 'roster');
     }
 
     /**
@@ -26,64 +26,35 @@ class RosterController extends Controller
      */
     public function index()
     {
-        $res = [];
 
-        if (Auth::check() && Auth::user()->hasRole(['Admin', 'Team Leader'])) {
-
-            $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
-                ->with('proof')
-                ->get();
-
-            foreach ($data as $v) {
-
-                $res[] = [
-                    'id' => $v->id,
-                    'title' => $v->user->name.' - '.$v->proof->name,
-                    'start' => $v->date.' '.$v->from,
-                    'end' => $v->date.' '.$v->to,
-                    'user_id' => $v->user_id,
-                    'user_name' => $v->user->name,
+        $rosters = Roster::where('date', '>', Carbon::now()->subMonth(4))
+            ->get()
+            ->mapWithKeys( function (object $rosters, int $key) {
+                return [
+                    $key => [
+                        'id' => $rosters->id,
+                        'title' => $rosters->user->name . ' - ' . $rosters->proof->name,
+                        'start' => $rosters->date . ' ' . $rosters->from,
+                        'end' => $rosters->date . ' ' . $rosters->to,
+                        'user_id' => $rosters->user_id,
+                        'user_name' => $rosters->user->name,
+                        'color' => 'green' // qui controllo la timbratura
+                    ]
                 ];
+            });
 
-            }
-        }
-
-        if (Auth::check() && Auth::user()->hasRole('Operator')) {
-
-            $data = Roster::where('date', '>', Carbon::now()->subMonth(6))
-                ->where('user_id', Auth::id())
-                ->with('proof')
-                ->get();
-
-            foreach ($data as $v) {
-
-                $res[] = [
-                    'id' => $v->id,
-                    'title' => $v->proof->name,
-                    'start' => $v->date.' '.$v->from,
-                    'end' => $v->date.' '.$v->to,
-                    'user_id' => $v->user_id,
-                    'user_name' => $v->user->name,
-                ];
-            }
-        }
-
-        // credo il periodo temporale in base al numero della settimana corrente
+        // creo il periodo temporale in base al numero della settimana corrente
         $today = Carbon::now();
-        $weeksOfYearAvailable = [];
-        $currentWeekOfYear = $today->weekOfYear;
 
-        for ($i = 1; $i <= 53; $i++) {
-            if ($i >= ($currentWeekOfYear - 4)) {
-                $weeksOfYearAvailable[] = $i;
-            }
-        }
+        $weeksOfYearAvailable = collect($today)->times(52, function (int $weeksOfYear) {
+            return $weeksOfYear;
+        });
 
         return view('rosters.index',
             [
-                'weeksOfYearAvailable' => $weeksOfYearAvailable,
-                'res' => $res,
-                'currentWeekOfYear' => $currentWeekOfYear,
+                'weeksOfYearAvailable' => $weeksOfYearAvailable->all(),
+                'rosters' => $rosters,
+                'currentWeekOfYear' => $today->weekOfYear,
             ],
 
         );
@@ -139,7 +110,7 @@ class RosterController extends Controller
 
     public function downloadEmptyFile(Request $request)
     {
-        return (new RosterExampleImport($request->weekNumber))->download('turni-'.$request->weekNumber.'.xlsx');
+        return (new RosterExampleImport($request->weekNumber))->download('turni-' . $request->weekNumber . '.xlsx');
     }
 
     public function importRosterFile(RosterStoreRequest $rosterStoreRequest)

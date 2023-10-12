@@ -18,13 +18,18 @@
                     <x-nav-link href="{{ route('progen.index') }}" :active="request()->routeIs('progen.index', 'progen.edit')">
                         Progen
                     </x-nav-link>
+                    @can('create user')
+                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users')">
+                            Utenti
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="ml-3 relative">
+                    {{-- <div class="ml-3 relative">
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
@@ -71,7 +76,7 @@
                                 </div>
                             </x-slot>
                         </x-dropdown>
-                    </div>
+                    </div> --}}
                     <div class="ml-3 relative">
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
@@ -117,7 +122,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="ml-3 text-sm font-small">
-                                                    <div class="text-sm font-small">{{ $notification->proof->name }}</div> 
+                                                    <div class="text-sm font-small">{{ $notification->proof->name }}</div>
                                                 </div>
                                             </div>
                                         </x-dropdown-link>
@@ -190,6 +195,12 @@
                                 {{ __('profile.profile') }}
                             </x-dropdown-link>
 
+                            @can('assign permission role')
+                                <x-dropdown-link href="{{ route('manage-people') }}">
+                                    {{ __('manage-people') }}
+                                </x-dropdown-link>
+                            @endcan
+
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
@@ -233,6 +244,11 @@
             <x-responsive-nav-link href="{{ route('progen.index') }}" :active="request()->routeIs('progen')">
                 Progen
             </x-responsive-nav-link>
+            @can('create user')
+                <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users')">
+                    Progen
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
@@ -264,17 +280,21 @@
                     </span>
                     @endif
                 </x-responsive-nav-link>
-                
+
                 <x-responsive-nav-link href="{{ route('comunications.index') }}" :active="request()->routeIs('comunications.index')">
                     {{ __('comunication.comunications') }}
                 </x-responsive-nav-link>
-                
+
                 <x-responsive-nav-link href="{{ route('attendances.index') }}" :active="request()->routeIs('attendances.index')">
                     {{ __('attendance.attendances') }}
                 </x-responsive-nav-link>
-                
+
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('profile.profile') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('manage-people') }}" :active="request()->routeIs('manage-people')">
+                    {{ __('manage-people') }}
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

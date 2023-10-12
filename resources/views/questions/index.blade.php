@@ -1,6 +1,5 @@
 @php
     use Carbon\Carbon;
-    use App\Http\Controllers\QuestionController;
 @endphp
 
 
@@ -8,7 +7,7 @@
 <script>
 
     const retrieveQuestion = async (questionId) => {
-        const response = await 
+        const response = await
             axios
             .get('/api/question/' + questionId)
 
@@ -66,7 +65,7 @@
                                 <a type="button" data-modal-target="insertQuestionModal" data-modal-toggle="insertQuestionModal" class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Nuova richiesta</a>
                             </li>
                         </ul>
-                    </div>  
+                    </div>
                 </div>
             </nav>
 
@@ -108,18 +107,18 @@
                                         <td>
                                             @if ($question->user_id == Auth::id())
                                                 <button
-                                                    data-modal-target="deleteQuestionModal" 
+                                                    data-modal-target="deleteQuestionModal"
                                                     data-modal-toggle="deleteQuestionModal"
-                                                    x-on:click="$dispatch('delete-questionmodal', {'start': '{{Carbon::parse($question->from)->format('H:i')}}', 'end': '{{Carbon::parse($question->to)->format('H:i')}}', 'day': '{{ Carbon::parse($question->date)->format('Y-m-d') }}', 'action': '{{ $question->action }}', 'id': '{{$question->id}}'})"                                                    
+                                                    x-on:click="$dispatch('delete-questionmodal', {'start': '{{Carbon::parse($question->from)->format('H:i')}}', 'end': '{{Carbon::parse($question->to)->format('H:i')}}', 'day': '{{ Carbon::parse($question->date)->format('Y-m-d') }}', 'action': '{{ $question->action }}', 'id': '{{$question->id}}'})"
                                                     class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                                         Elimina
                                                     <i class="fa-regular fa-trash-can"></i>
                                                 </button>
                                             @else
                                                 <button
-                                                    data-modal-target="detailQuestionModal" 
-                                                    data-modal-toggle="detailQuestionModal"
-                                                    x-on:click="$dispatch('detail-questionmodal', {'id': '{{$question->id}}'})"                                                    
+{{--                                                    data-modal-target="detailQuestionModal"--}}
+{{--                                                    data-modal-toggle="detailQuestionModal"--}}
+{{--                                                    x-on:click="$dispatch('detail-questionmodal', {'id': '{{$question->id}}'})"--}}
                                                     class="focus:outline-none text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
                                                         Dettagli
                                                         <i class="fa-solid fa-circle-info"></i>
@@ -127,18 +126,18 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @endforeach   
+                                @endforeach
                             </tbody>
                         </table>
                         {{ $questions->links() }}
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
 
 
 
-
+        @if($questions)
 
             <!-- Insert Question Modal -->
             <div id="insertQuestionModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -211,8 +210,8 @@
                                                 </svg>
                                             </div>
                                             <input name="endTime" type="time" step="1800" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
-                                            
-                                        </div>  
+
+                                        </div>
                                     </div>
                                     <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('question.time_select') }}</p>
 
@@ -224,7 +223,7 @@
                                         <input type="text" id="note" name="note" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('common.note') }}">
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <!-- Modal footer -->
                             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -237,14 +236,10 @@
                 </div>
             </div>
 
-        </div>
 
-
-
-        @if (Auth::id() == 99)
-            {{-- <div
-            x-data="{ questionStart: '', questionEnd: '', questionDay: '', questionAction: '', questionId: ''}" 
-            @delete-questionmodal.window="questionStart = $event.detail.start, questionEnd = $event.detail.end, questionDay = $event.detail.day, questionAction = $event.detail.action, questionId = $event.detail.id"
+            <div
+                x-data="{ questionStart: '', questionEnd: '', questionDay: '', questionAction: '', questionId: ''}"
+                @delete-questionmodal.window="questionStart = $event.detail.start, questionEnd = $event.detail.end, questionDay = $event.detail.day, questionAction = $event.detail.action, questionId = $event.detail.id"
 
             >
                 <!-- Delete Question Modal -->
@@ -288,73 +283,74 @@
                     </div>
                 </div>
 
-            </div> --}}
-
-        @else
-
-            <div
-                x-data="{'id' : '', questionData : {}}"
-                @detail-questionmodal.window="id = $event.detail.id; questionData = retrieveQuestion(id);"
-            >
-                <!-- Delete Question Modal -->
-                <div id="detailQuestionModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative w-full max-w-2xl max-h-full">
-                        <!-- Modal content -->
-                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                            <form 
-                                x-bind:action="'{{ route('questions.destroy', '') }}' + '/' + id" 
-                                method="post"
-                            >
-                                @csrf
-                                @method('DELETE')
-
-                                <!-- Modal header -->
-                                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                        Dettagli Richiesta
-                                    </h3>
-                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="detailQuestionModal">
-                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                        </svg>
-                                        <span class="sr-only">Close modal</span>
-                                    </button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="p-6 space-y-6">
-
-                                    <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
-                                        <template x-for="(q, k) in questionData">
-                                            <div class="">
-                                                <span class="mb-3 text-gray-500 dark:text-gray-400 font-semibold text-gray-900 dark:text-white capitalize" x-text="k"></span>
-                                                <span>: </span>
-                                                <span x-text="q"></span>
-                                            </div>
-                                        </template>
-                                    </dl>
-
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                    <button data-modal-hide="detailQuestionModal" type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                        Accetta
-                                        <i class="fa-regular fa-circle-check"></i></button>
-                                    <button data-modal-hide="detailQuestionModal" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                        Rifiuta
-                                        <i class="fa-regular fa-circle-xmark"></i>
-                                    </button>
-                                    <button data-modal-hide="detailQuestionModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annulla</button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
+
+
+{{--            <div--}}
+{{--                x-data="{'id' : '', questionData : {}}"--}}
+{{--                @detail-questionmodal.window="id = $event.detail.id; questionData = retrieveQuestion(id);"--}}
+{{--            >--}}
+{{--                <!-- Delete Question Modal -->--}}
+{{--                <div id="detailQuestionModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">--}}
+{{--                    <div class="relative w-full max-w-2xl max-h-full">--}}
+{{--                        <!-- Modal content -->--}}
+{{--                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">--}}
+{{--                            <form--}}
+{{--                                x-bind:action="'{{ route('questions.destroy', '') }}' + '/' + id"--}}
+{{--                                method="post"--}}
+{{--                            >--}}
+{{--                                @csrf--}}
+{{--                                @method('DELETE')--}}
+
+{{--                                <!-- Modal header -->--}}
+{{--                                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">--}}
+{{--                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">--}}
+{{--                                        Dettagli Richiesta--}}
+{{--                                    </h3>--}}
+{{--                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="detailQuestionModal">--}}
+{{--                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">--}}
+{{--                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>--}}
+{{--                                        </svg>--}}
+{{--                                        <span class="sr-only">Close modal</span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                                <!-- Modal body -->--}}
+{{--                                <div class="p-6 space-y-6">--}}
+
+{{--                                    <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">--}}
+{{--                                        <template x-for="(q, k) in questionData">--}}
+{{--                                            <div class="">--}}
+{{--                                                <span class="mb-3 text-gray-500 dark:text-gray-400 font-semibold text-gray-900 dark:text-white capitalize" x-text="k"></span>--}}
+{{--                                                <span>: </span>--}}
+{{--                                                <span x-text="q"></span>--}}
+{{--                                            </div>--}}
+{{--                                        </template>--}}
+{{--                                    </dl>--}}
+
+{{--                                </div>--}}
+{{--                                <!-- Modal footer -->--}}
+{{--                                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">--}}
+{{--                                    <button data-modal-hide="detailQuestionModal" type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">--}}
+{{--                                        Accetta--}}
+{{--                                        <i class="fa-regular fa-circle-check"></i></button>--}}
+{{--                                    <button data-modal-hide="detailQuestionModal" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">--}}
+{{--                                        Rifiuta--}}
+{{--                                        <i class="fa-regular fa-circle-xmark"></i>--}}
+{{--                                    </button>--}}
+{{--                                    <button data-modal-hide="detailQuestionModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annulla</button>--}}
+{{--                                </div>--}}
+{{--                            </form>--}}
+
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
+{{--            </div>--}}
+
         @endif
-        
+
+
     </div>
 
 

@@ -4,6 +4,7 @@ namespace App\Exports\Sheet;
 
 use App\Models\Proof;
 use App\Models\User;
+use Auth;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;

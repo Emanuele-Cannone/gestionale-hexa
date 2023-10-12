@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Services\AttendanceService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -14,12 +17,11 @@ class AttendanceController extends Controller
     {
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
 
+        // dd('ciao');
         $attendances = Attendance::where('user_id', Auth::id())
             ->orderByDesc('id')
             ->paginate(15);
